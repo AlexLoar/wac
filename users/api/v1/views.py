@@ -7,6 +7,7 @@ from rest_framework import status
 
 from users.models import CustomUser
 from .serializers import CustomUserSerializer, TokenSerializer
+from .permissions import IsOwner
 
 
 class Login(APIView):
@@ -31,4 +32,4 @@ class CustomUserList(generics.ListAPIView):
 class CustomUserDetail(generics.RetrieveUpdateAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer
-    permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated, IsOwner)

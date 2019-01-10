@@ -2,7 +2,7 @@ from django.urls import path
 
 from users.api.v1 import views
 
-app_name = 'users'
+app_name = 'users_v1'
 
 urlpatterns = [
     path('login', views.Login.as_view(), name='login'),
