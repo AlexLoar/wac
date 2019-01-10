@@ -8,4 +8,4 @@ class CustomUser(AbstractUser):
     avatar = models.ImageField(max_length=255, blank=True, upload_to='avatars/')
 
     def __str__(self):
-        return f'{self.usernamee}'
+        return f'{self.username}'
