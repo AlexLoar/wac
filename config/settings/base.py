@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'ji&$-&m=j2fe9psau_%j0bk88nm6om*90grnk-*s*d78)+g!aa'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -148,10 +148,14 @@ USE_TZ = True
 STATICFILES_DIRS = [
     'users/static'
 ]
+
+# https://docs.djangoproject.com/es/2.1/ref/settings/#static-url
 STATIC_URL = '/static/'
 
+# https://docs.djangoproject.com/es/2.1/ref/settings/#media-root
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+# https://docs.djangoproject.com/es/2.1/ref/settings/#media-url
 MEDIA_URL = '/media/'
 
 # Logging configuration
@@ -194,7 +198,7 @@ LOGGING = {
     'loggers': {
         'django': {
             'handlers': ['file', 'console'],
-            'level': 'DEBUG',
+            'level': 'INFO',
             'propagate': True
         },
         'django.request': {
