@@ -1,24 +1,24 @@
 from django.urls import reverse
+from django.core.files.uploadedfile import SimpleUploadedFile
+
 from users.models import CustomUser
 
 from rest_framework.authtoken.models import Token
-from rest_framework.test import APITestCase
+from rest_framework.test import APITransactionTestCase
 
 
-class LoginTestCase(APITestCase):
+class LoginTestCase(APITransactionTestCase):
     url = reverse('users_v1:login')
 
-    @classmethod
-    def setUpClass(cls):
+    def setUp(self):
         super().setUpClass()
-        cls.username = "Batman"
-        cls.email = "batman@batdomain.com"
-        cls.password = "my_bat_password"
-        cls.user = CustomUser.objects.create_user(cls.username, cls.email, cls.password)
+        self.username = "Batman"
+        self.email = "batman@batdomain.com"
+        self.password = "my_bat_password"
+        self.user = CustomUser.objects.create_user(self.username, self.email, self.password)
 
-    @classmethod
-    def tearDownClass(cls):
-        cls.user.delete()
+    def tearDown(self):
+        self.user.delete()
 
     def test_authenticate_without_username(self):
         response = self.client.post(self.url, {'password': 'whatever'})
@@ -44,7 +44,7 @@ class LoginTestCase(APITestCase):
         self.assertIn(b'token', response.content)
 
 
-class CustomUserListTestCase(APITestCase):
+class CustomUserListTestCase(APITransactionTestCase):
     url = reverse('users_v1:list')
 
     def setUp(self):
@@ -80,7 +80,7 @@ class CustomUserListTestCase(APITestCase):
         self.assertIn(b'Authentication credentials were not provided', self.response.content)
 
 
-class CustomDetailTestCase(APITestCase):
+class CustomDetailTestCase(APITransactionTestCase):
     def setUp(self):
         self.username = "john"
         self.email = "john@snow.com"
@@ -126,11 +126,16 @@ class CustomDetailTestCase(APITestCase):
         self.assertEqual(403, response.status_code)
 
     def test_update_correct_user_returns_200(self):
+        mock_image = SimpleUploadedFile('fake_image.jpg', (b'\x47\x49\x46\x38\x39\x61\x01\x00\x01\x00\x00\x00\x00\x21\xf9\x04'
+                                                           b'\x01\x0a\x00\x01\x00\x2c\x00\x00\x00\x00\x01\x00\x01\x00\x00\x02'
+                                                           b'\x02\x4c\x01\x00\x3b'
+                                                           ), content_type='image/jpg')
         data = {
             "name": "Foo",
             "first_name": "Bar",
             "last_name": "FooBar",
-            "email": "foo@bar.com"
+            "email": "foo@bar.com",
+            "avatar": mock_image
         }
         response = self.client.put(reverse('users_v1:detail', kwargs={"pk": self.user.id}), data=data)
         self.assertEqual(200, response.status_code)

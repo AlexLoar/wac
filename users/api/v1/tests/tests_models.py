@@ -1,10 +1,10 @@
 from django.core import exceptions
 from users.models import CustomUser
 
-from rest_framework.test import APITestCase
+from rest_framework.test import APITransactionTestCase
 
 
-class CustomUserModelTestCase(APITestCase):
+class CustomUserModelTestCase(APITransactionTestCase):
 
     @classmethod
     def setUpClass(cls):
