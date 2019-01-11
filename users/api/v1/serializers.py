@@ -6,10 +6,11 @@ from users.models import CustomUser
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
+    avatar = serializers.ImageField(max_length=None, use_url=True)
+
     class Meta:
         model = CustomUser
         fields = ('id', 'name', 'first_name', 'last_name', 'email', 'avatar')
-        read_only_fields = ('avatar',)
 
 
 class TokenSerializer(serializers.Serializer):

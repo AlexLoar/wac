@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Update User {% endblock %}
+
+{% block style %}
+  <link rel="stylesheet" href="{% static 'css/update_user.css' %}">
+{% endblock %}
+
+{% block content %}
+  <div id="app">
+    <update-user></update-user>
+  </div>
+
+ <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+ <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+  <script src="{% static 'js/update_user.js' %}"></script>
+  <script charset="utf-8">
+        Vue.config.devtools = true
+        var app = new Vue({
+          el: '#app',
+          delimiters: ['[[',']]'],
+          components: {
+            update-user
+          }
+        });
+  </script>
+{% endblock %}

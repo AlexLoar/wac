@@ -1,0 +1,56 @@
+#update-user {
+  text-align: center;
+}
+#form-user {
+  display: inline-block;
+}
+
+.form-group > input {
+  text-align: center;
+}
+
+form {
+  width: 100%;
+  margin: 0 auto;
+}
+
+html {
+  font-family: 'Montserrat', sans-serif;
+}
+
+nav a {
+  font-weight: 600;
+  margin-left: 10px;
+}
+
+#app table {
+  font-size: 1.1rem;
+  font-weight: 400;
+  margin-top: 45px;
+}
+
+#app th {
+  text-transform: uppercase;
+}
+
+#app h3 {
+  font-weight: 600;
+}
+
+label {
+  width: 30%;
+  text-align: right;
+}
+
+label + input {
+  width: 30%;
+  margin: 0 30% 0 4%;
+}
+
+input + input {
+  float: right;
+}
+.small-btn {
+  width: 50px;
+  height: 25px;
+}

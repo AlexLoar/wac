@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+  <div id="app">
+    <h3 class="center">Users</h3>
+    <table class="striped centered highlight responsible">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>First name</th>
+          <th>Last name</th>
+          <th>Email</th>
+          <th>Avatar</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="user in users">
+          <td>[[ user.id ]]</td>
+          <td>[[ user.name ]]</td>
+          <td>[[ user.first_name ]]</td>
+          <td>[[ user.last_name ]]</td>
+          <td>[[ user.email ]]</td>
+          <td v-if="user.avatar"><img :src="[[ user.avatar ]]" class="responsive-img" width="60" height="60" alt="Avatar"></td>
+          <td v-else></td>
+          <td>
+              <a v-bind:id="[[ user.id ]]" v-bind:href="editUrl([[ user.id ]])" class="btn-floating btn-small waves-effect waves-light red" :disabled="[[ user.id ]] != owner">
+                  <i class="material-icons">edit</i>
+              </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <script charset="utf-8">
+    authToken = JSON.parse(localStorage.getItem('authKey'))
+    axios.defaults.headers.common['Authorization'] = 'Token ' + authToken
+    var app = new Vue({
+      el: '#app',
+      data: {
+        users: [],
+        owner: JSON.parse(localStorage.getItem('user'))
+      },
+      delimiters: ['[[',']]'],
+      methods: {
+        fetchUsers: function() {
+          axios.get('/api/v1/users')
+            .then((response) => {
+                this.users = response.data
+            })
+            .catch(function (error){
+                M.toast({html: 'Ooops! Something went wrong...'}, 5000)
+            });
+        },
+         editUrl: function(userId) {
+            return '/users/' + userId + '/edit'
+         },
+         activateDisableButton: function (userId) {
+           document.getElementById(userId)
+         }
+      },
+      created () {
+        this.fetchUsers()
+      }
+    });
+  </script>
+{% endblock %}
